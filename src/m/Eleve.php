@@ -36,6 +36,24 @@ class Eleve extends ConnexionPDO{
         }
         return $resultat;
     }
+
+    public function getElevesParClasseSection($section) {
+        $resultat = [];
+    
+        try {
+            $cnx = $this->connexion();
+            $req = $cnx->prepare("select * from eleve join classe using(id_classe) where section like :section order by nom");
+            $req->bindValue(':section', $section, PDO::PARAM_STR);
+    
+            $req->execute();
+    
+            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage();
+            die();
+        }
+        return $resultat;
+    }
     
     public function getElevesMoyenne() {
         $resultat = [];
@@ -52,4 +70,41 @@ class Eleve extends ConnexionPDO{
         }
         return $resultat;
     }
+
+    public function updateElevePasse($id) {
+        $resultat = [];
+    
+        try {
+            $cnx = $this->connexion();
+            $req = $cnx->prepare("update eleve set passe=true where id like :id");   
+            $req->bindValue(':id', $id, PDO::PARAM_INT);
+
+            $req->execute();
+    
+            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage();
+            die();
+        }
+        return $resultat;
+    }
+
+    public function getElevePasse($id) {
+        $resultat = [];
+    
+        try {
+            $cnx = $this->connexion();
+            $req = $cnx->prepare("select passe from eleve where id like :id");   
+            $req->bindValue(':id', $id, PDO::PARAM_INT);
+
+            $req->execute();
+    
+            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage();
+            die();
+        }
+        return $resultat;
+    }
 }
+
