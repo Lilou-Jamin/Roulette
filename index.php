@@ -5,7 +5,7 @@ require_once 'src/c/main_controller.php';
 require_once 'config/connexion_sql.php';
 require_once 'getRacine.php';
 
-if (isset($_GET["action"])) {
+if(isset($_GET["action"])) {
     $action = $_GET["action"];
 } 
 else {
@@ -14,4 +14,3 @@ else {
 
 $fichier = main_controller($action);
 include "$racine/src/c/$fichier";
-?>

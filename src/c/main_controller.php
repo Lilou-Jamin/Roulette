@@ -15,4 +15,3 @@ function main_controller($action) {
         return $lesActions["defaut"];
     }
 }
-?>

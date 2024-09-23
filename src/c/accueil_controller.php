@@ -1,8 +1,8 @@
 <?php
 
 include_once 'src/m/bdd.php';
-include_once 'src/m/eleve.php';
-include_once 'src/m/classe.php';
+include_once 'src/m/Eleve.php';
+include_once 'src/m/Classe.php';
 
 $eleve = new Eleve();
 $classe = new Classe();

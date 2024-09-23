@@ -89,13 +89,82 @@ class Eleve extends ConnexionPDO{
         return $resultat;
     }
 
+    public function updateEleveNbPassages($id) {
+        $resultat = [];
+    
+        try {
+            $cnx = $this->connexion();
+            $req = $cnx->prepare("update eleve set nb_passages = nb_passages+1 where id like :id");   
+            $req->bindValue(':id', $id, PDO::PARAM_INT);
+
+            $req->execute();
+    
+            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage();
+            die();
+        }
+        return $resultat;
+    }
+
     public function getElevePasse($id) {
         $resultat = [];
     
         try {
             $cnx = $this->connexion();
-            $req = $cnx->prepare("select passe from eleve where id like :id");   
+            $req = $cnx->prepare("select passe from eleve where id = :id");   
             $req->bindValue(':id', $id, PDO::PARAM_INT);
+
+            $req->execute();
+    
+            $resultat = $req->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage();
+            die();
+        }
+        return $resultat;
+    }
+
+    public function resetPassages() {
+        $resultat = [];
+    
+        try {
+            $cnx = $this->connexion();
+            $req = $cnx->prepare("update eleve set passe=false where passe=true");   
+
+            $req->execute();
+    
+            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage();
+            die();
+        }
+        return $resultat;
+    }
+
+    public function resetNbPassages() {
+        $resultat = [];
+    
+        try {
+            $cnx = $this->connexion();
+            $req = $cnx->prepare("update eleve set nb_passages=0");   
+
+            $req->execute();
+    
+            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage();
+            die();
+        }
+        return $resultat;
+    }
+
+    public function resetNotes() {
+        $resultat = [];
+    
+        try {
+            $cnx = $this->connexion();
+            $req = $cnx->prepare("update eleve set nb_notes=0 and total_notes=0");   
 
             $req->execute();
     
