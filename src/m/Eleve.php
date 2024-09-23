@@ -159,12 +159,101 @@ class Eleve extends ConnexionPDO{
         return $resultat;
     }
 
-    public function resetNotes() {
+    public function resetNbNotes() {
         $resultat = [];
     
         try {
             $cnx = $this->connexion();
-            $req = $cnx->prepare("update eleve set nb_notes=0 and total_notes=0");   
+            $req = $cnx->prepare("update eleve set nb_notes=0");   
+
+            $req->execute();
+    
+            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage();
+            die();
+        }
+        return $resultat;
+    }
+
+    public function resetTotalNotes() {
+        $resultat = [];
+    
+        try {
+            $cnx = $this->connexion();
+            $req = $cnx->prepare("update eleve set total_notes=0");   
+
+            $req->execute();
+    
+            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage();
+            die();
+        }
+        return $resultat;
+    }
+
+    public function ajoutNote($id, $note) {
+        $resultat = [];
+    
+        try {
+            $cnx = $this->connexion();
+            $req = $cnx->prepare("update eleve set total_notes = total_notes+:note where id=:id");   
+            $req->bindValue(':id', $id, PDO::PARAM_INT);
+            $req->bindValue(':note', $note, PDO::PARAM_INT);
+
+            $req->execute();
+    
+            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage();
+            die();
+        }
+        return $resultat;
+    }
+
+    public function incrementNbNote($id) {
+        $resultat = [];
+    
+        try {
+            $cnx = $this->connexion();
+            $req = $cnx->prepare("update eleve set nb_notes = nb_notes + 1 where id=:id");   
+            $req->bindValue(':id', $id, PDO::PARAM_INT);
+
+            $req->execute();
+    
+            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage();
+            die();
+        }
+        return $resultat;
+    }
+
+    public function updateEleveAbsent($id) {
+        $resultat = [];
+    
+        try {
+            $cnx = $this->connexion();
+            $req = $cnx->prepare("update eleve set absent=true where id=:id");   
+            $req->bindValue(':id', $id, PDO::PARAM_INT);
+
+            $req->execute();
+    
+            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage();
+            die();
+        }
+        return $resultat;
+    }
+
+    public function resetAbsent() {
+        $resultat = [];
+    
+        try {
+            $cnx = $this->connexion();
+            $req = $cnx->prepare("update eleve set absent=0");   
 
             $req->execute();
     

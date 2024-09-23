@@ -3,9 +3,9 @@ require 'src/v/base_view.php';
 require_once 'src/c/accueil_controller.php';
 ?>
 
-<div class="bg-white flex flex-col justify-center pt-8">
+<div class="bg-white flex flex-col justify-center p-5">
     <form method="POST" action="./?action=tirage">
-        <label> Sélectionner la classe : </label>
+        <label class="underline"> Sélectionner la classe : </label>
         <select name="select_classe" id="select_classe" class="rounded-lg p-2 w-[40]">
             <?php
                 // Affiche les différentes classes dans un menu déroulant
@@ -15,14 +15,12 @@ require_once 'src/c/accueil_controller.php';
             ?>
         </select>
 
-        <input type="submit" name="submit" value="CHOISIR"></input>
+        <input class="font-bold" type="submit" name="submit" value="CHOISIR"></input>
     </form>
 
     <!-- Assigne la classe sélectionnée à une variable de session -->
     <?php if (isset($_POST['select_classe'])){
                     $_SESSION['select_classe'] = $_POST['select_classe'];
-                }else{
-                    echo "Aucune classe n'a été séléctionnée.";
                 }?>
     
     <!-- Affiche les élèves triés par classe
