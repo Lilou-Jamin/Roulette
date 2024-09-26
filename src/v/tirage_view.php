@@ -18,7 +18,7 @@
             <?php } 
         ?>
 
-        <input type="submit" name="tirer" value="TIRER" class="mt-6 bg-blue-500 text-white py-2 px-4 rounded font-bold cursor-pointer">
+        <input type="submit" name="tirer" value="TIRER" class="mt-6 bg-red-500 text-white py-2 px-4 rounded font-bold cursor-pointer">
     </form>
 
     <?php 
@@ -40,11 +40,11 @@
     <?php } ?>
 
     <form class="mt-6" method="POST" action="">
-        <input type="submit" name="reset_passages" value="RÉINITIALISER LISTE D'ATTENTE (passages)" class="bg-blue-300 text-white py-2 px-4 rounded hover:bg-blue-600 transition font-bold cursor-pointer">
+        <input type="submit" name="reset_passages" value="RÉINITIALISER LISTE D'ATTENTE (passages)" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition font-bold cursor-pointer">
     </form>
 
     <form class="mt-4" method="POST" action="">
-        <input type="submit" name="reset_notes" value="RÉINITIALISER NOTES" class="bg-blue-300 text-white py-2 px-4 rounded hover:bg-blue-600 transition font-bold cursor-pointer">
+        <input type="submit" name="reset_notes" value="RÉINITIALISER NOTES" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition font-bold cursor-pointer">
     </form>
 
     <h1 class="text-2xl font-semibold my-4">Élèves passés :</h1> 

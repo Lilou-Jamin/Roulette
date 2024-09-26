@@ -9,14 +9,14 @@
     <body>
 
         <header>
-            <nav class="bg-gray-500 p-4">
+            <nav class="bg-yellow-500 p-4">
                 <div class="container mx-auto flex justify-between items-center">
                     <h1 class="text-white text-2xl font-bold">Projet Roulette</h1>
 
                     <div>
                         <ul class="flex space-x-8">
                             <li>
-                                <a href="./?action=defaut" class="text-gray-300 hover:text-white transition duration-300">Accueil</a>
+                                <a href="./?action=defaut" class="text-white">Accueil</a>
                             </li>
                         </ul>
                     </div>
