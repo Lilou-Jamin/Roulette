@@ -5,7 +5,7 @@ require_once 'src/c/accueil_controller.php';
 
 <div class="bg-white flex flex-col justify-center p-5">
     <form method="POST" action="./?action=tirage">
-        <label class="underline"> Sélectionner la classe : </label>
+        <label class="text-2xl font-semibold"> Sélectionner la classe : </label>
         <select name="select_classe" id="select_classe" class="rounded-lg p-2 w-[40]">
             <?php
                 // Affiche les différentes classes dans un menu déroulant
@@ -15,7 +15,7 @@ require_once 'src/c/accueil_controller.php';
             ?>
         </select>
 
-        <input class="font-bold" type="submit" name="submit" value="CHOISIR"></input>
+        <input class="bg-blue-500 text-white py-2 px-4 rounded font-bold cursor-pointer" type="submit" name="submit" value="CHOISIR"></input>
     </form>
 
     <!-- Assigne la classe sélectionnée à une variable de session -->

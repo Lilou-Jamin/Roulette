@@ -2,6 +2,7 @@
 require_once "bdd.php";
 
 class Classe extends ConnexionPDO{
+    // Sélectionne toutes les classes (pour avoir leur nom par ex)
     public function getClasses() {
         $resultat = [];
     

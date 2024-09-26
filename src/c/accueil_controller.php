@@ -18,6 +18,3 @@ foreach ($listeClasses as $c) {
 }
 
 include 'src/v/accueil_view.php';
-
-// Si on a choisit une classe et qu'on l'a envoyé, alors on affiche la vue tirage avec les élèves de la classe sélectionnée
-
