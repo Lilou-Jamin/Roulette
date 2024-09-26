@@ -1,5 +1,5 @@
 <?php
-require_once "bdd.php";
+require_once "$racine/config/connexion_sql.php";
 
 class Classe extends ConnexionPDO{
     // Sélectionne toutes les classes (pour avoir leur nom par ex)

@@ -1,6 +1,6 @@
 <?php
 
-include_once 'src/m/bdd.php';
+require_once "$racine/config/connexion_sql.php";
 include_once 'src/m/Eleve.php';
 include_once 'src/m/Classe.php';
 

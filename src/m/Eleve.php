@@ -1,5 +1,5 @@
 <?php
-require_once "bdd.php";
+require_once "$racine/config/connexion_sql.php";
 
 class Eleve extends ConnexionPDO{
     public function getEleves() {
