@@ -7,7 +7,7 @@ class Eleve extends ConnexionPDO{
     
         try {
             $cnx = $this->connexion();
-            $req = $cnx->prepare("select * from eleve order by nom");
+            $req = $cnx->prepare("select * from eleve order by nom_eleve");
             $req->execute();
     
             $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
@@ -24,7 +24,7 @@ class Eleve extends ConnexionPDO{
     
         try {
             $cnx = $this->connexion();
-            $req = $cnx->prepare("select * from eleve join classe using(id_classe) where id_classe like :id_classe order by nom");
+            $req = $cnx->prepare("select * from eleve join classe using(id_classe) where id_classe=:id_classe order by nom_eleve");
             $req->bindValue(':id_classe', $id_classe, PDO::PARAM_INT);
     
             $req->execute();
@@ -37,18 +37,18 @@ class Eleve extends ConnexionPDO{
         return $resultat;
     }
 
-    // Récupère les élèves avec le nom de leur section (SIO1, SIO2 etc...)
-    public function getElevesParClasseSection($section) {
+    // Récupère un élève par son ID
+    public function getEleveParId($id_eleve){
         $resultat = [];
-    
-        try {
+
+        try{
             $cnx = $this->connexion();
-            $req = $cnx->prepare("select * from eleve join classe using(id_classe) where section like :section order by nom");
-            $req->bindValue(':section', $section, PDO::PARAM_STR);
-    
+            $req = $cnx->prepare("select * from eleve join classe using(id_classe) where id_eleve=:id_eleve");
+            $req->bindValue(':id_eleve', $id_eleve, PDO::PARAM_INT);
+
             $req->execute();
-    
-            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+
+            $resultat = $req->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             print "Erreur !: " . $e->getMessage();
             die();
@@ -56,16 +56,18 @@ class Eleve extends ConnexionPDO{
         return $resultat;
     }
     
-    // Sélectionne les élèves selon leur moyenne en ordre décroissant
-    public function getElevesMoyenne() {
+     // Récupère la moyenne d'un élève par son Id
+     public function getEleveMoyenne($id_eleve) {
         $resultat = [];
     
         try {
             $cnx = $this->connexion();
-            $req = $cnx->prepare("select moyenne from eleve order by moyenne desc");   
+            $req = $cnx->prepare("select avg(note) as moyenne from passage where id_eleve=:id_eleve");   
+            $req->bindValue(':id_eleve', $id_eleve, PDO::PARAM_INT);
+
             $req->execute();
     
-            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+            $resultat = $req->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             print "Erreur !: " . $e->getMessage();
             die();
@@ -74,32 +76,13 @@ class Eleve extends ConnexionPDO{
     }
 
     // Met l'attribut "passe" à 1
-    public function updateElevePasse($id) {
+    public function updateElevePasse($id_eleve) {
         $resultat = [];
     
         try {
             $cnx = $this->connexion();
-            $req = $cnx->prepare("update eleve set passe=true where id like :id");   
-            $req->bindValue(':id', $id, PDO::PARAM_INT);
-
-            $req->execute();
-    
-            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            print "Erreur !: " . $e->getMessage();
-            die();
-        }
-        return $resultat;
-    }
-
-    // Ajoute 1 au nb passages
-    public function updateEleveNbPassages($id) {
-        $resultat = [];
-    
-        try {
-            $cnx = $this->connexion();
-            $req = $cnx->prepare("update eleve set nb_passages = nb_passages+1 where id like :id");   
-            $req->bindValue(':id', $id, PDO::PARAM_INT);
+            $req = $cnx->prepare("update eleve set passe=true where id_eleve=:id_eleve");   
+            $req->bindValue(':id_eleve', $id_eleve, PDO::PARAM_INT);
 
             $req->execute();
     
@@ -112,13 +95,13 @@ class Eleve extends ConnexionPDO{
     }
 
     // Sélectionne l'attribut "passe" pour un élève donné
-    public function getElevePasse($id) {
+    public function getElevePasse($id_eleve) {
         $resultat = [];
     
         try {
             $cnx = $this->connexion();
-            $req = $cnx->prepare("select passe from eleve where id = :id");   
-            $req->bindValue(':id', $id, PDO::PARAM_INT);
+            $req = $cnx->prepare("select passe from eleve where id_eleve=:id_eleve");   
+            $req->bindValue(':id_eleve', $id_eleve, PDO::PARAM_INT);
 
             $req->execute();
     
@@ -131,124 +114,21 @@ class Eleve extends ConnexionPDO{
     }
 
     // Sélectionne tous les élèves qui sont déjà passés
-    public function getElevesPasses() {
+    // A REVOIR
+    public function getElevesPasses($id_classe) {
         $resultat = [];
     
         try {
             $cnx = $this->connexion();
-            $req = $cnx->prepare("select * from eleve where passe=1");   
-
-            $req->execute();
-    
-            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            print "Erreur !: " . $e->getMessage();
-            die();
-        }
-        return $resultat;
-    }
-
-    // Réinitialise tous les passages des élèves qui sont déjà passés
-    public function resetPassages() {
-        $resultat = [];
-    
-        try {
-            $cnx = $this->connexion();
-            $req = $cnx->prepare("update eleve set passe=false where passe=true");   
-
-            $req->execute();
-    
-            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            print "Erreur !: " . $e->getMessage();
-            die();
-        }
-        return $resultat;
-    }
-
-    // Réinitialise le nb passages de tous les élèves
-    public function resetNbPassages() {
-        $resultat = [];
-    
-        try {
-            $cnx = $this->connexion();
-            $req = $cnx->prepare("update eleve set nb_passages=0");   
-
-            $req->execute();
-    
-            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            print "Erreur !: " . $e->getMessage();
-            die();
-        }
-        return $resultat;
-    }
-
-    // Réinitialise le nb notes de tous les élèves
-    public function resetNbNotes() {
-        $resultat = [];
-    
-        try {
-            $cnx = $this->connexion();
-            $req = $cnx->prepare("update eleve set nb_notes=0");   
-
-            $req->execute();
-    
-            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            print "Erreur !: " . $e->getMessage();
-            die();
-        }
-        return $resultat;
-    }
-
-    // Réinitialise le total notes de tous les élèves
-    public function resetTotalNotes() {
-        $resultat = [];
-    
-        try {
-            $cnx = $this->connexion();
-            $req = $cnx->prepare("update eleve set total_notes=0");   
-
-            $req->execute();
-    
-            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            print "Erreur !: " . $e->getMessage();
-            die();
-        }
-        return $resultat;
-    }
-
-    // Ajoute la note attribuée à un élève à son total de notes
-    public function ajoutNote($id, $note) {
-        $resultat = [];
-    
-        try {
-            $cnx = $this->connexion();
-            $req = $cnx->prepare("update eleve set total_notes = total_notes+:note where id=:id");   
-            $req->bindValue(':id', $id, PDO::PARAM_INT);
-            $req->bindValue(':note', $note, PDO::PARAM_INT);
-
-            $req->execute();
-    
-            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            print "Erreur !: " . $e->getMessage();
-            die();
-        }
-        return $resultat;
-    }
-
-    // Ajoute 1 au nb notes
-    public function incrementNbNote($id) {
-        $resultat = [];
-    
-        try {
-            $cnx = $this->connexion();
-            $req = $cnx->prepare("update eleve set nb_notes = nb_notes + 1 where id=:id");   
-            $req->bindValue(':id', $id, PDO::PARAM_INT);
-
+            $req = $cnx->prepare("
+                SELECT e.id_eleve, e.nom_eleve, e.prenom_eleve, 
+                       COALESCE(p.note, 'Absent') AS note
+                FROM eleve e
+                LEFT JOIN passage p ON e.id_eleve = p.id_eleve
+                WHERE e.passe = 1 AND e.id_classe = :id_classe
+                ORDER BY e.nom_eleve
+            ");
+            $req->bindValue(':id_classe', $id_classe, PDO::PARAM_INT);
             $req->execute();
     
             $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
@@ -260,71 +140,30 @@ class Eleve extends ConnexionPDO{
     }
 
     // Met à jour l'attribut absent à 1 et passe à 0 quand un élève est absent
-    public function updateEleveAbsent($id) {
-        $resultat = [];
-    
+    public function updateEleveAbsent($id_eleve) {
         try {
             $cnx = $this->connexion();
-            $req = $cnx->prepare("update eleve set absent=1 and passe=0 where id=:id");   
-            $req->bindValue(':id', $id, PDO::PARAM_INT);
+            $req = $cnx->prepare("update eleve set absent=true, passe=true where id_eleve=:id_eleve");   
+            $req->bindValue(':id_eleve', $id_eleve, PDO::PARAM_INT);
 
             $req->execute();
-    
-            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+
         } catch (PDOException $e) {
             print "Erreur !: " . $e->getMessage();
             die();
         }
-        return $resultat;
     }
 
-    // Réinitialise tous les élèves absents
-    public function resetAbsent() {
+    public function resetElevesPassage($id_classe){
         $resultat = [];
-    
-        try {
+
+        try{
             $cnx = $this->connexion();
-            $req = $cnx->prepare("update eleve set absent=0");   
+            $req = $cnx->prepare("update eleve set passe=false where id_classe=:id_classe; update eleve set absent=false where id_classe = :id_classe; ");
+            $req->bindValue(':id_classe', $id_classe, PDO::PARAM_INT);
 
             $req->execute();
-    
-            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            print "Erreur !: " . $e->getMessage();
-            die();
-        }
-        return $resultat;
-    }
 
-    // Met à jour la moyenne d'un élève
-    public function updateEleveMoyenne($id) {
-        $resultat = [];
-    
-        try {
-            $cnx = $this->connexion();
-            $req = $cnx->prepare("update eleve set moyenne = total_notes/nb_notes where id=:id");   
-            $req->bindValue(':id', $id, PDO::PARAM_INT);
-
-            $req->execute();
-    
-            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            print "Erreur !: " . $e->getMessage();
-            die();
-        }
-        return $resultat;
-    }
-
-    // Réinitialise la moyenne de tous les élèves
-    public function resetMoyenne() {
-        $resultat = [];
-    
-        try {
-            $cnx = $this->connexion();
-            $req = $cnx->prepare("update eleve set moyenne = 0");   
-
-            $req->execute();
-    
             $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             print "Erreur !: " . $e->getMessage();

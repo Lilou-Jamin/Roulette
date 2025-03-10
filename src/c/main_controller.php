@@ -3,6 +3,7 @@ function main_controller($action) {
     $lesActions = [];
     $lesActions["defaut"] = "accueil_controller.php";
     $lesActions["tirage"] = "tirage_controller.php";
+    $lesActions["info"] = "info_eleve_controller.php";
 
     // Si on a sélectionné une classe alors on la garde en variable de session
     if (isset($_POST['select_classe'])){

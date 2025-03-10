@@ -11,13 +11,11 @@
         <header>
             <nav class="bg-yellow-500 p-4">
                 <div class="container mx-auto flex justify-between items-center">
-                    <h1 class="text-white text-2xl font-bold">Projet Roulette</h1>
+                    <h1 class="text-black text-2xl font-bold"> Projet Roulette </h1>
 
                     <div>
                         <ul class="flex space-x-8">
-                            <li>
-                                <a href="./?action=defaut" class="text-white">Accueil</a>
-                            </li>
+                            <a href="./?action=defaut" class="text-white"><img src="public/img/accueil.svg"></a>
                         </ul>
                     </div>
                 </div>
