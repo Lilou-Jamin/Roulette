@@ -1,23 +1,28 @@
-CREATE TABLE IF NOT EXISTS `classe` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `nom` varchar(30) NOT NULL,
-    `moyenne` int(10) NOT NULL DEFAULT 0,
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS classe, eleve, passage;
 
-CREATE TABLE IF NOT EXISTS `eleve` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `id_classe` int(11) NOT NULL REFERENCES classe(`id`),
-    `nom` varchar(30) NOT NULL,
-    `prenom` varchar(30) NOT NULL,
-    `absent` boolean NOT NULL,
-    `passe` boolean NOT NULL,
-    `nb_passages` int(2) NOT NULL DEFAULT 0,
-    `nb_notes` int(2) NOT NULL DEFAULT 0,
-    `total_notes` int(10) NOT NULL DEFAULT 0,
-    `moyenne` int(10) NOT NULL DEFAULT 0,
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS classe (
+    id_classe int NOT NULL AUTO_INCREMENT,
+    nom_classe varchar(30) NOT NULL,
+    PRIMARY KEY (id_classe)
+);
+
+CREATE TABLE IF NOT EXISTS eleve (
+    id_eleve int NOT NULL AUTO_INCREMENT,
+    id_classe int NOT NULL REFERENCES classe(id_classe),
+    nom_eleve varchar(30) NOT NULL,
+    prenom_eleve varchar(30) NOT NULL,
+    absent boolean,
+    passe boolean,
+    PRIMARY KEY (id_eleve)
+);
+
+CREATE TABLE IF NOT EXISTS passage (
+    id_passage int NOT NULL AUTO_INCREMENT,
+    id_eleve int NOT NULL REFERENCES eleve(id_eleve),
+    date_passage datetime,
+    note int,
+    PRIMARY KEY (id_passage)
+);
 
 
 
