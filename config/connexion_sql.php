@@ -26,18 +26,3 @@
 				die();
 			}
 		}
-	}
-
-	// Insertions des données dans les tables
-	$datafeed = "INSERT INTO classe (nom_classe) VALUES
-    ('SIO1'),
-    ('SIO2');
-    
-    INSERT INTO eleve (nom_eleve, prenom_eleve, id_classe) VALUES
-	('LEFEVRE', 'Paul', 1),
-	('LAMBERT', 'Zoé', 1),
-	('MONPETIT', 'Arthur', 1),
-	('REGNIER', 'Mattéo', 2),
-	('MONNIER', 'Ethan', 2),
-	('DUPONT', 'Marie', 2),
-	('MOULIN', 'Gabriel', 2);";
