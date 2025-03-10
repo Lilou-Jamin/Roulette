@@ -1,30 +1,17 @@
-# template_GIT
-This is a template to create a common base of projects with GitLab.
-
-
-
 ## INSTALLATION
+Créez une base de données vide en local.
 
-### Simplest way
+Récuperez le script SQL dans le fichier ROULETTE.sql puis exécutez-le.
 
-```bash
-# Run the script from the folder
-cd config
-bash install.sh
-```
+Créez un fichier "config.php" dans le dossier "config", et y ajoutez la série de variables pour la connexion à la BDD : 
+  
+// A compléter 
+	define('DB_HOST',    '0.0.0.0');
+	define('DB_NAME',    'roulette');
+	define('DB_USER',    '');
+	define('DB_PWD',     '');
 
-
-
-### Manually
-
-In config folder, rename _config.php to config.php and change the values inside.
-
-
-
-## TROUBLESHOOTING
-
-
-
+Lancez le projet.
 
 ## CONTRIBUTORS
 

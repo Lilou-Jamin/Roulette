@@ -38,4 +38,3 @@ INSERT INTO eleve (nom_eleve, prenom_eleve, id_classe) VALUES
     ('MOULIN', 'Gabriel', 2);
 
 
-
